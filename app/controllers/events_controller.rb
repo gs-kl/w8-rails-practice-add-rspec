@@ -17,13 +17,6 @@ class EventsController < ApplicationController
   end
 
   def create
-    event_params = params.require(:event).permit(
-      :description,
-      :location,
-      :date,
-      :capacity,
-      :requires_id
-    )
     @event = Event.new(event_params)
     @event.save
     redirect_to events_path
@@ -43,9 +36,21 @@ class EventsController < ApplicationController
   end
   
   def destroy
-    @event = Event.find(params[:iid])
-    @event.destroy(event_params)
+    @event = Event.find(params[:id])
+    @event.destroy
     redirect_to events_path
   end
 
+
+  private
+
+  def event_params
+    params.require(:event).permit(
+      :description,
+      :location,
+      :date,
+      :capacity,
+      :requires_id
+    )
+  end
 end
